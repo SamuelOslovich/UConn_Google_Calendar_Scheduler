@@ -16,3 +16,8 @@ A Python Application that uploads your UConn Schedule to your Google Calendar
 12. Select and verify which gmail account you would like to use
 13. Paste the verification code into the console and press enter
 14. Your UConn schedule should now be in your google calendar
+## Required Python Libraries
+- pickle
+- datefinder
+- datetime
+- google-api
