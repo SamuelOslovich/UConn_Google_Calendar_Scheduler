@@ -8,7 +8,7 @@ A Python Application that uploads your UConn Schedule to your Google Calendar
 5. Go to credentials
 6. Create credentials-OAuth client ID-Other
 7. Download the Client ID and save as client_secret.json
-8. Place the client_secret.json file in the folder containing UConn_Google_Calendar_Inputter.py
+8. Replace the client_secret.json file in the folder containing UConn_Google_Calendar_Inputter.py
 9. Copy and paste your from schedule from the UConn Self Service site into InputFile.txt
 10. Run UConn_Google_Calendar_Inputter.py
 11. Go to the generated link
