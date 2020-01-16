@@ -6,7 +6,6 @@ import datetime
 from datetime import timedelta, timezone
 import Txt_To_Calendar_Input
 
-
 scopes = ['https://www.googleapis.com/auth/calendar']
 
 #Prompts the user to authorize the application
@@ -18,14 +17,6 @@ pickle.dump(credentials, open("token.pkl", "wb"))
 credentials = pickle.load(open("token.pkl", "rb"))
 
 service = build("calendar", "v3", credentials=credentials)
-
-result = service.calendarList().list().execute()
-
-#Accesses the primary calendar
-calendar_id = result['items'][0]['id']
-
-#Displays all events in the primary calendar
-result = service.events().list(calendarId=calendar_id).execute()
 
 #Creates an event in the calendar
 def create_event(summary, description, start_time, end_time, location=None, repeatWeeklyUntil=None):
