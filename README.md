@@ -1,7 +1,7 @@
 # UConn Google Calendar Scheduler
 A Python Application that uploads your UConn Schedule to your Google Calendar
 ## How to use
-1. Download the files
+1. Download the repository
 2. Go to the google developer console
 3. Create a new project 
 4. Enable the Google Calendar API
