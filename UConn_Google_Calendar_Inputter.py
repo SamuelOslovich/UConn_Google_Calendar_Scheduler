@@ -7,11 +7,10 @@ from datetime import timedelta, timezone
 import Txt_To_Calendar_Input
 
 
-
 scopes = ['https://www.googleapis.com/auth/calendar']
 
 #Prompts the user to authorize the application
-flow = InstalledAppFlow.from_client_secrets_file("client_secret_.json", scopes=scopes)
+flow = InstalledAppFlow.from_client_secrets_file("client_secret.json", scopes=scopes)
 credentials = flow.run_console()
 
 #Stores the credentials
