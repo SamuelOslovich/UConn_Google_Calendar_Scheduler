@@ -1,5 +1,6 @@
 # UConn Google Calendar Scheduler
-A Python Application that uploads your UConn Schedule to your Google Calendar
+---
+I came up the idea for this program when I was thinking about all the time that I spend inputting my college class schedule into my google calendar. I decided to make a program where I could copy and paste my schedule into a text file and my classes would automatically be uploaded to my google calendar. I decided to use python for this project since the google calendar api supports python and I had a class using python coming up. The user copies and pastes their class schedule from the UConn self service page and pastes it into a .txt file. When the program is run it parses the text file and outputs a .txt file containing the date, start time, end time, and location of the class. The program then parses this new text file and creates events in the users google calendar.
 ## How to use
 1. Download the repository
 2. Go to the [Google Developer Console](https://console.developers.google.com/)
