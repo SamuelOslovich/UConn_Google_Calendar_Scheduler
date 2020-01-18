@@ -1,4 +1,4 @@
-from apiclient.discovery import build
+import apiclient
 from google_auth_oauthlib.flow import InstalledAppFlow
 import pickle
 import datefinder
@@ -40,7 +40,7 @@ credentials = flow.run_local_server(port=0)
 pickle.dump(credentials, open("token.pkl", "wb")) 
 credentials = pickle.load(open("token.pkl", "rb"))
 
-service = build("calendar", "v3", credentials=credentials)
+service = apiclient.discovery.build("calendar", "v3", credentials=credentials)
 
 #Creates an event in the calendar
 def create_event(summary, description, start_time, end_time, location=None, repeatWeeklyUntil=None):
@@ -82,7 +82,7 @@ def create_event(summary, description, start_time, end_time, location=None, repe
         'useDefault': False,
       }
     }
-
+    
     event = service.events().insert(calendarId='primary', body=event).execute()
 
 def run():
@@ -95,9 +95,41 @@ def run():
     #A variable that keeps track of the first time through the loop
     first = True
 
+    #Finds the date of the next weekday
+    #0 = monday, 1 = tuesday, etc
+    def nextWeekday(day, weekday):
+        days_ahead = weekday - day.weekday()
+        if days_ahead < 0:
+            days_ahead += 7
+        return day + datetime.timedelta(days_ahead)
+
+
     #Operates on every line of the file and if the line contains class info appends it to the list
     for line in fileInput.readlines():
-        
+        if "Spring" in line:
+            if "2020" in line:
+                startDate = datetime.date(2020, 1, 21)
+                stopDate = "5/1/2020"
+            elif "2021" in line:
+                startDate = datetime.date(2021, 1, 19)
+                stopDate = "4/30/2021"
+            elif "2022" in line:
+                startDate = datetime.date(2022, 1, 18)
+                stopDate = "4/29/2022"
+            elif "2023" in line:
+                startDate = datetime.date(2023, 1, 17)
+                stopDate = "4/28/2023"
+        if "Fall" in line:
+            if "2020" in line:
+                startDate = datetime.date(2020, 8, 31)
+                stopDate = "12/11/2020"
+            elif "2021" in line:
+                startDate = datetime.date(2021, 8, 30)
+                stopDate = "12/11/2021"
+            elif "2022" in line:
+                startDate = datetime.date(2022, 8, 29)
+                stopDate = "12/9/2022"
+
         if "Schedule" not in line:
             
             if "Academic Calendar Deadlines" in line:
@@ -141,19 +173,19 @@ def run():
         times = [split[1], split[3]]
 
         if "Mo" in dayTime:
-            days.append(["1/27/2020", times]) #1/27 is the first monday of the semester
+            days.append([nextWeekday(startDate, 0), times]) #Finds the first monday of the semester
         if "Tu" in dayTime:
-            days.append(["1/21/2020", times]) #1/21 is the first tuesday of the semester
+            days.append([nextWeekday(startDate, 1), times]) #Finds the first tuesday of the semester
         if "We" in dayTime:
-            days.append(["1/22/2020", times]) #etc
+            days.append([nextWeekday(startDate, 2), times]) #etc
         if "Th" in dayTime:
-            days.append(["1/23/2020", times])
+            days.append([nextWeekday(startDate, 3), times])
         if "Fr" in dayTime:
-            days.append(["1/24/2020", times])
+            days.append([nextWeekday(startDate, 4), times])
         if "Sa" in dayTime:
-            days.append(["1/25/2020", times])
+            days.append([nextWeekday(startDate, 5), times])
         if "Su" in dayTime:
-            days.append(["1/26/2020", times])
+            days.append([nextWeekday(startDate, 6), times])
 
         return days
 
@@ -164,7 +196,6 @@ def run():
 
     #Writes the class to the file
     def addClass(information):
-        lastDayOfSemester = "5/1/2020"
 
         #More than 1 time/location
         if len(information) > 4:
@@ -175,7 +206,7 @@ def run():
                                                                 days[0], days[1][0], #Date and start time
                                                                 days[0], days[1][1], #Date and end time
                                                                 information[3].rstrip("\n"), #Location
-                                                                lastDayOfSemester)) #Last day of the semester
+                                                                stopDate)) #Last day of the semester
                 output.write("\n")
 
             information[4] = dayTimeConverter(information[4])
@@ -185,7 +216,7 @@ def run():
                                                                 days[0], days[1][0], #Date and start time
                                                                 days[0], days[1][1], #Date and end time
                                                                 information[5].rstrip("\n"), #Location
-                                                                lastDayOfSemester)) #Last day of the semester
+                                                                stopDate)) #Last day of the semester
                 output.write("\n")
 
         #One time/location
@@ -197,7 +228,7 @@ def run():
                                                                 days[0], days[1][0], #Date and start time
                                                                 days[0], days[1][1], #Date and end time
                                                                 information[3].rstrip("\n"), #Location
-                                                                lastDayOfSemester)) #Last day of the semester
+                                                                stopDate)) #Last day of the semester
                 output.write("\n")
             
             
