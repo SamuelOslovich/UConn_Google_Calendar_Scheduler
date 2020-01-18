@@ -47,7 +47,7 @@ def create_event(summary, description, start_time, end_time, location=None, repe
     
     #Extracts the start and end times from text
     matches = list(datefinder.find_dates(start_time))
-    matches2 = list(datefinder.find_dates(start_time))
+    matches2 = list(datefinder.find_dates(end_time))
 
     start_time = matches[0]
     end_time = matches2[0]
